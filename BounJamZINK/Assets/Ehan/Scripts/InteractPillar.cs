@@ -51,6 +51,22 @@ public class InteractPillar : MonoBehaviour
             //Debug.Log("Raycast hit nothing.");
         }
     }
+    
+    [SerializeField] private Transform remPillar;
+    [SerializeField] private Transform remPillar1;
+
+    public void RemoveColliders()
+    {
+        Debug.Log("remove collider calisti");
+        lineRendererScript.AddPointToLine(remPillar);
+        lineRendererScript.AddPointToLine(remPillar1);
+        Invoke("Temp", 1f);
+    }
+
+    private void Temp()
+    {
+        lineRendererScript.ClearPointsList(); 
+    }
 
     
 }
