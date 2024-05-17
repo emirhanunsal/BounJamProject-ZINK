@@ -30,11 +30,11 @@ public class CharacterController : MonoBehaviour
     
             if (moveX == 1)
             {
-                sr.flipX = true;
+                sr.flipX = false;
             }
             else if (moveX == -1)
             {
-                sr.flipX = false;
+                sr.flipX = true;
             }
             
             
