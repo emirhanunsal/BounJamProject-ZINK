@@ -7,7 +7,8 @@ public class LineRendererScript : MonoBehaviour
 {
     private LineRenderer lr;
     private EdgeCollider2D edgeCollider;
-    
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private InteractPillar _interactPillar;
     [SerializeField] private List<Transform> points = new List<Transform>();
     void Start()
     {
@@ -18,7 +19,11 @@ public class LineRendererScript : MonoBehaviour
     public void AddPointToLine(Transform transform)
     {
         AddElementIfNotLastOrSecondLast(transform);
-        
+    }
+
+    public void ClearPointsList()
+    {
+        points.Clear();
     }
     
     void Update()
@@ -88,6 +93,7 @@ public class LineRendererScript : MonoBehaviour
                 {
                     Debug.Log("Invalid loop bulundu " + currentTransform.name);
                     points.Clear();
+                    _interactPillar.RemoveColliders();
                     return; // Tekrar eden eleman bulunduğunda işlemi sonlandır
                 }
             }
@@ -102,8 +108,9 @@ public class LineRendererScript : MonoBehaviour
             if (points[0] == points[points.Count - 1])
             {
                 Debug.Log("Valid loop var");
-                DamageEnemies();
+                
                 Invoke("ClearPointList", 1f);
+                
                 return true;
             }
             else
@@ -118,13 +125,16 @@ public class LineRendererScript : MonoBehaviour
         
     }
 
-    public void DamageEnemies()
-    {
-        
-    }
+    
 
     private void ClearPointList()
     {
         points.Clear();
+        _interactPillar.RemoveColliders();
     }
+    
+    
+    
+
+    
 }
