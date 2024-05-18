@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 [RequireComponent(typeof(EdgeCollider2D))]
@@ -9,11 +10,16 @@ public class LineRendererScript : MonoBehaviour
     private EdgeCollider2D edgeCollider;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private InteractPillar _interactPillar;
-    [SerializeField] private List<Transform> points = new List<Transform>();
+    [SerializeField] public List<Transform> points = new List<Transform>();
+    [SerializeField] private UsedRopeCalculations usedRopeCalculations;
+    
+
     void Start()
     {
         lr = GetComponent<LineRenderer>();
         edgeCollider = this.GetComponent<EdgeCollider2D>();
+        
+
     }
     
     public void AddPointToLine(Transform transform)
@@ -34,6 +40,8 @@ public class LineRendererScript : MonoBehaviour
             lr.SetPosition(i, points[i].position);
         }
         SetEdgeCollider(lr);
+        Debug.Log(damageEnabled);
+        SetOnFire();
     }
     
     void SetEdgeCollider(LineRenderer lineRenderer)
@@ -78,6 +86,8 @@ public class LineRendererScript : MonoBehaviour
 
         // Yeni elemanı listeye ekle
         points.Add(newElement);
+        usedRopeCalculations.CalculateNewDistance();
+        
         //Debug.Log("Eleman listeye eklendi: " + newElement);
     }
 
@@ -91,7 +101,7 @@ public class LineRendererScript : MonoBehaviour
             {
                 if (currentTransform == points[j])
                 {
-                    Debug.Log("Invalid loop bulundu " + currentTransform.name);
+                    //Debug.Log("Invalid loop bulundu " + currentTransform.name);
                     points.Clear();
                     _interactPillar.RemoveColliders();
                     return; // Tekrar eden eleman bulunduğunda işlemi sonlandır
@@ -107,10 +117,8 @@ public class LineRendererScript : MonoBehaviour
         {
             if (points[0] == points[points.Count - 1])
             {
-                Debug.Log("Valid loop var");
-                
-                Invoke("ClearPointList", 1f);
-                
+                //Debug.Log("Valid loop var");
+                damageEnabled = true;
                 return true;
             }
             else
@@ -125,16 +133,58 @@ public class LineRendererScript : MonoBehaviour
         
     }
 
-    
+    public bool damageEnabled = false;
+    public bool isOnFire = false;
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log("Çarpışma başladı: " + collision.gameObject.name);
+        if (collision.gameObject.CompareTag("Enemy") && isOnFire)
+        {
+            Destroy(collision.gameObject);
+        }
+    }
 
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && isOnFire)
+        {
+           // Debug.Log("IPTE CARPISMA VAR");
+            Destroy(collision.gameObject);
+        }
+    }
+
+    private void SetOnFire()
+    {
+        if (damageEnabled)
+        {
+            if (_interactPillar.hit.collider != null)
+            {
+                //Debug.Log("Damage enabled ve pillara dokunuoluyor");
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    Debug.Log("Damage enabled ve pillara dokunuoluyor ve f basıldı");
+                    EnableFireAnimation();
+                    isOnFire = true;
+                    Invoke("ClearPointList", 10f);
+                }
+            }
+        }
+        
+    }
+
+    private void EnableFireAnimation()
+    {
+        
+    }
     private void ClearPointList()
     {
         points.Clear();
+        damageEnabled = false;
+        isOnFire = false;
         _interactPillar.RemoveColliders();
     }
-    
-    
+}
     
 
     
-}
+
