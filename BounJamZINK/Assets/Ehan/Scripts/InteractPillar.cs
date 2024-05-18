@@ -8,8 +8,8 @@ public class InteractPillar : MonoBehaviour
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private LineRendererScript lineRendererScript;
     
-    private Vector2 lastLookDirection;
-
+    public Vector2 lastLookDirection;
+    public RaycastHit2D hit;
     void Update()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
@@ -27,7 +27,7 @@ public class InteractPillar : MonoBehaviour
         Vector2 end = start + lastLookDirection * interactDistance;
         
         // Raycast yap ve sonucu kontrol et
-        RaycastHit2D hit = Physics2D.Raycast(start, lastLookDirection, interactDistance, pillarLayerMask);
+        hit = Physics2D.Raycast(start, lastLookDirection, interactDistance, pillarLayerMask);
         
         // Debug çizgisi çiz
         //Debug.DrawRay(start, lastLookDirection * interactDistance, Color.green);
@@ -57,10 +57,10 @@ public class InteractPillar : MonoBehaviour
 
     public void RemoveColliders()
     {
-        Debug.Log("remove collider calisti");
+        //Debug.Log("remove collider calisti");
         lineRendererScript.AddPointToLine(remPillar);
         lineRendererScript.AddPointToLine(remPillar1);
-        Invoke("Temp", 1f);
+        Invoke("Temp", 0.4f);
     }
 
     private void Temp()
