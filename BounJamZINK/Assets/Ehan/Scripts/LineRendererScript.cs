@@ -1,0 +1,150 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(EdgeCollider2D))]
+public class LineRendererScript : MonoBehaviour
+{
+    private LineRenderer lr;
+    private EdgeCollider2D edgeCollider;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private InteractPillar _interactPillar;
+    [SerializeField] private List<Transform> points = new List<Transform>();
+    
+
+    void Start()
+    {
+        lr = GetComponent<LineRenderer>();
+        edgeCollider = this.GetComponent<EdgeCollider2D>();
+        
+
+    }
+    
+    public void AddPointToLine(Transform transform)
+    {
+        AddElementIfNotLastOrSecondLast(transform);
+    }
+
+    public void ClearPointsList()
+    {
+        points.Clear();
+    }
+    
+    void Update()
+    {
+        lr.positionCount = points.Count;
+        for (int i = 0; i < points.Count; i++)
+        {
+            lr.SetPosition(i, points[i].position);
+        }
+        SetEdgeCollider(lr);
+        
+    }
+    
+    void SetEdgeCollider(LineRenderer lineRenderer)
+    {
+        List<Vector2> edges = new List<Vector2>();
+ 
+        for(int point = 0; point<lineRenderer.positionCount; point++)
+        {
+            Vector3 lineRendererPoint = lineRenderer.GetPosition(point);
+            edges.Add(new Vector2(lineRendererPoint.x, lineRendererPoint.y));
+        }
+ 
+        edgeCollider.SetPoints(edges);
+    }
+    
+    public void AddElementIfNotLastOrSecondLast(Transform newElement)
+    {
+        int count = points.Count;
+        
+        // Listenin son veya sondan bir önceki elemanını kontrol etme
+        if (count > 0)
+        {
+            Transform lastElement = points[count - 1];
+
+            if (lastElement == newElement)
+            {
+                //Debug.Log("Yeni eklemek istediğiniz eleman zaten listenin son elemanı.");
+                return;
+            }
+        }
+
+        if (count > 1)
+        {
+            Transform secondLastElement = points[count - 2];
+
+            if (secondLastElement == newElement)
+            {
+                //Debug.Log("Yeni eklemek istediğiniz eleman zaten listenin sondan bir önceki elemanı.");
+                return;
+            }
+        }
+
+        // Yeni elemanı listeye ekle
+        points.Add(newElement);
+        //Debug.Log("Eleman listeye eklendi: " + newElement);
+    }
+
+    public void CheckInvalidCompleteLoop()
+    {
+        Debug.Log("Invalid loop fonk calisti");
+        for (int i = 0; i < points.Count; i++)
+        {
+            Transform currentTransform = points[i];
+            for (int j = i + 1; j < points.Count; j++)
+            {
+                if (currentTransform == points[j])
+                {
+                    Debug.Log("Invalid loop bulundu " + currentTransform.name);
+                    points.Clear();
+                    _interactPillar.RemoveColliders();
+                    return; // Tekrar eden eleman bulunduğunda işlemi sonlandır
+                }
+            }
+        }
+       // Debug.Log("Listede tekrar eden bir transform bulunamadı.");
+    }
+
+    public bool CheckValidLoop()
+    {
+        if (points.Count >= 3)
+        {
+            if (points[0] == points[points.Count - 1])
+            {
+                Debug.Log("Valid loop var");
+                Invoke("ClearPointList", 1f);
+                
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+
+    
+
+    private void ClearPointList()
+    {
+        points.Clear();
+        _interactPillar.RemoveColliders();
+    }
+    
+    
+    
+   
+    
+    
+    
+}
+    
+
+    
+
