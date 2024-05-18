@@ -7,15 +7,16 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
 
-    [SerializeField] private float maxHealth;
-    [SerializeField] private float currentHealth;
-    [SerializeField] private float damageGiven;
+    [SerializeField] private int maxHealth;
+    [SerializeField] private int currentHealth;
+    [SerializeField] private int damageGiven;
 
-
-
+    public HealthBar healthBar;
+    
     private void Start()
     {
         currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
 
@@ -33,18 +34,20 @@ public class Health : MonoBehaviour
         }  
     }
 
-    void TakeDamage(float damage)
+    void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
     }
 
-    void Heal(float heal)
+    void Heal(int heal)
     {
         currentHealth += heal;
         if (currentHealth >= maxHealth)
         {
             currentHealth = maxHealth;
         }
+        healthBar.SetHealth(currentHealth);
     }
     
 }
