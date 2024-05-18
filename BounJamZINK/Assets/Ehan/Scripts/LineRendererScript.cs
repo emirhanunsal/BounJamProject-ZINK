@@ -8,23 +8,33 @@ public class LineRendererScript : MonoBehaviour
 {
     private LineRenderer lr;
     private EdgeCollider2D edgeCollider;
+    public int skor = 0;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private InteractPillar _interactPillar;
     [SerializeField] public List<Transform> points = new List<Transform>();
     [SerializeField] private UsedRopeCalculations usedRopeCalculations;
+    [SerializeField] private UI ui;
     
+     
 
     void Start()
     {
         lr = GetComponent<LineRenderer>();
         edgeCollider = this.GetComponent<EdgeCollider2D>();
         
-
     }
     
     public void AddPointToLine(Transform transform)
     {
-        AddElementIfNotLastOrSecondLast(transform);
+        if (usedRopeCalculations.remainingRope > 0)
+        {
+            AddElementIfNotLastOrSecondLast(transform);
+        }
+        else
+        {
+            Debug.Log("No more rope left");
+        }
+        
     }
 
     public void ClearPointsList()
@@ -141,6 +151,7 @@ public class LineRendererScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") && isOnFire)
         {
             Destroy(collision.gameObject);
+            skor = skor + UnityEngine.Random.Range(0, 11);
         }
     }
 
@@ -150,8 +161,11 @@ public class LineRendererScript : MonoBehaviour
         {
            // Debug.Log("IPTE CARPISMA VAR");
             Destroy(collision.gameObject);
+            skor = skor + UnityEngine.Random.Range(0, 11);
         }
     }
+    
+    
 
     private void SetOnFire()
     {
