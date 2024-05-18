@@ -10,10 +10,14 @@ public class LineRendererScript : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private InteractPillar _interactPillar;
     [SerializeField] private List<Transform> points = new List<Transform>();
+    
+
     void Start()
     {
         lr = GetComponent<LineRenderer>();
         edgeCollider = this.GetComponent<EdgeCollider2D>();
+        
+
     }
     
     public void AddPointToLine(Transform transform)
@@ -34,6 +38,7 @@ public class LineRendererScript : MonoBehaviour
             lr.SetPosition(i, points[i].position);
         }
         SetEdgeCollider(lr);
+        
     }
     
     void SetEdgeCollider(LineRenderer lineRenderer)
@@ -108,7 +113,6 @@ public class LineRendererScript : MonoBehaviour
             if (points[0] == points[points.Count - 1])
             {
                 Debug.Log("Valid loop var");
-                
                 Invoke("ClearPointList", 1f);
                 
                 return true;
@@ -135,6 +139,12 @@ public class LineRendererScript : MonoBehaviour
     
     
     
-
+   
+    
+    
     
 }
+    
+
+    
+
