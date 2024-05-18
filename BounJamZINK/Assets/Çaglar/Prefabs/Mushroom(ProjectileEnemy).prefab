@@ -105,6 +105,7 @@ MonoBehaviour:
   speed: 1
   shootRate: 2
   firePoint: {fileID: 3940075830641687727}
+  health: {fileID: 0}
 --- !u!61 &6340442775028501574
 BoxCollider2D:
   m_ObjectHideFlags: 0

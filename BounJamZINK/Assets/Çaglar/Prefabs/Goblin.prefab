@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4143613505808046703}
   - component: {fileID: 6855356978060494194}
   - component: {fileID: 2048767733533388518}
+  - component: {fileID: -3571926069678133608}
   m_Layer: 6
   m_Name: Goblin
   m_TagString: Enemy
@@ -172,7 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6098a79c4add1f3448397ffa13e089ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+
   speed: 3
+
 --- !u!95 &2048767733533388518
 Animator:
   serializedVersion: 5
@@ -194,3 +197,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3571926069678133608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265097531357216847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ce1774acb91f1a469de8be9be8e8b36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 20
+  currentHealth: 20
+  damageGiven: 0
+  healthBar: {fileID: 0}
