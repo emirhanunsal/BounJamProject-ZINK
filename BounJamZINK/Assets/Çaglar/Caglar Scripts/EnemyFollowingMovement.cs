@@ -10,9 +10,10 @@ public class EnemyFollowingMovement : MonoBehaviour
     private float distance;
     private Rigidbody2D r2d;
     public Animator animator;
-    
+    public SpriteRenderer spriteRenderer;
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();    
         player = GameObject.FindGameObjectWithTag("Player");
         r2d = GetComponent<Rigidbody2D>();
@@ -35,7 +36,14 @@ public class EnemyFollowingMovement : MonoBehaviour
                 transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
 
             }
-            
+            if(transform.position.x > player.transform.position.x)
+            {
+                spriteRenderer.flipX = true;
+            }
+            else
+            {
+                spriteRenderer.flipX = false;
+            }
         }
     }
 
