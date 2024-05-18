@@ -157,7 +157,7 @@ public class LineRendererScript : MonoBehaviour
     {
         if (damageEnabled)
         {
-            if (_interactPillar.hit.collider != null)
+            if (_interactPillar.hit.collider != null && points.Contains(_interactPillar.hit.collider.gameObject.transform))
             {
                 //Debug.Log("Damage enabled ve pillara dokunuoluyor");
                 if (Input.GetKeyDown(KeyCode.F))
