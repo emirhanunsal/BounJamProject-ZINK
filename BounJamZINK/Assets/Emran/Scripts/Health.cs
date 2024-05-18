@@ -7,9 +7,9 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
 
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int currentHealth;
-    [SerializeField] private int damageGiven;
+    public int maxHealth;
+    public int currentHealth;
+    
 
     public HealthBar healthBar;
     
