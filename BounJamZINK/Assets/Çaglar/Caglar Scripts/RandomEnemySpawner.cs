@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class RandomEnemySpawner : MonoBehaviour
 {
     // Start is called before the first frame update
 
@@ -11,9 +11,10 @@ public class NewBehaviourScript : MonoBehaviour
     private bool canSpawn = true;
     [SerializeField] private float spawnRate = 1.0f;
     [SerializeField] public float distanceOfSpawner = 20.0f;
-    [SerializeField] private GameObject player;
+     private GameObject player;
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(Spawner());
         StartCoroutine(changingPositionOfSpawner());
     }
