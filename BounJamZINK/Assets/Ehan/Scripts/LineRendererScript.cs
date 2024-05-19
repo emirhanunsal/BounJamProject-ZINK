@@ -13,16 +13,19 @@ public class LineRendererScript : MonoBehaviour
     [SerializeField] private InteractPillar _interactPillar;
     [SerializeField] public List<Transform> points = new List<Transform>();
     [SerializeField] private UsedRopeCalculations usedRopeCalculations;
+
     [SerializeField] private UI ui;
     [SerializeField] private GameObject ropePerk;
     [SerializeField] private GameObject healthPerk;
      
-
     void Start()
     {
         lr = GetComponent<LineRenderer>();
         edgeCollider = this.GetComponent<EdgeCollider2D>();
+
         
+
+
     }
     
     public void AddPointToLine(Transform transform)
@@ -213,8 +216,13 @@ public class LineRendererScript : MonoBehaviour
             {
                 //Debug.Log("Damage enabled ve pillara dokunuoluyor");
                 if (Input.GetKeyDown(KeyCode.F))
+
                 {
                     changeColors = true;
+
+                {   
+                    
+>
                     Debug.Log("Damage enabled ve pillara dokunuoluyor ve f basıldı");
                     isOnFire = true;
                     Invoke("ClearPointList", 10f);
