@@ -33,8 +33,8 @@ public class ProjectileEnemy : MonoBehaviour
         {
             distance = Vector2.Distance(transform.position, player.transform.position);
 
-            if (distance <= 13.0f)
-            Instantiate(bullet, firePoint.position, quaternion.identity);
+            if (distance <= 3.0f)
+                Instantiate(bullet, firePoint.position, quaternion.identity);
 
             yield return new WaitForSeconds(shootRate);
 

@@ -1,22 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
+    public static float health = 100f;
 
-    public void SetMaxHealth(int health)
+    
+    public void SetMaxHealth(float _health)
     {
-        slider.maxValue = health;
-        slider.value = health;
+        slider.maxValue = _health;
+        slider.value = _health;
     }
 
-    public void SetHealth(int health)
+    public static void DecreaseHealth()
     {
-        slider.value = health;
+        
+        
+        health = health - UnityEngine.Random.Range(5, 8);
     }
+    
+    public static void IncreaseHealth()
+    {
+        if ((health + UnityEngine.Random.Range(10, 15) <= 100))
+        {
+            health = health + UnityEngine.Random.Range(10, 15);
+        }
+        else
+        {
+            health = 100f;
+        }
+    }
+    
+    
     
     
     void Start()
@@ -27,6 +47,6 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        slider.value = health;
     }
 }

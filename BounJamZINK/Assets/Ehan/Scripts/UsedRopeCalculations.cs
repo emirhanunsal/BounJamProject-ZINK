@@ -9,11 +9,30 @@ public class UsedRopeCalculations : MonoBehaviour
     [SerializeField] private LineRendererScript lineRendererScript;
     public List<Transform> pointsList;
     public int remainingRope = 1500;
+    
+    
     private void Start()
     {
         pointsList = lineRendererScript.points;
     }
 
+    public static bool increaseRope = false;
+    private void Update()
+    {
+        if (increaseRope)
+        {
+            remainingRope += 50;
+            increaseRope = false;
+        }
+    }
+
+    
+    public static void IncreaseRope()
+    {
+        increaseRope = true;
+    }
+
+    
     
     public void CalculateNewDistance()
     {
@@ -28,11 +47,6 @@ public class UsedRopeCalculations : MonoBehaviour
             {
                 remainingRope = 0;
             }
-            
-
-            
-
-            
         }
         
     }

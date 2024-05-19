@@ -11,7 +11,7 @@ public class UI : MonoBehaviour
     [SerializeField] private LineRendererScript lineRendererScript;
     void Start()
     {
-        remainingRope.text = "Remaining Rope " + usedRopeCalculations.remainingRope.ToString();
+        remainingRope.text = "Remaining Rope " + usedRopeCalculations.ToString();
         scor.text = "Skor " + lineRendererScript.skor.ToString();
     }
 

@@ -11,6 +11,7 @@ public class EnemyFollowingMovement : MonoBehaviour
     private Rigidbody2D r2d;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+    
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -18,12 +19,25 @@ public class EnemyFollowingMovement : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         r2d = GetComponent<Rigidbody2D>();
     }
-
+    float maxTimer = 0.41f;
+    float timer = 0f;
     // Update is called once per frame
     void Update()
     {
         animator.SetFloat("Distance", distance);
-
+        // Eğer Animator "Attack" state'indeyse
+        if (distance <= 1.3f)
+        {
+            //Debug.Log("Attack state'indeyiz!");
+            
+            timer += Time.deltaTime;
+            if (timer > maxTimer)
+            {
+                HealthBar.DecreaseHealth();
+                timer = 0f;
+            }
+        }
+        
     }
     private void FixedUpdate()
     {
@@ -34,7 +48,6 @@ public class EnemyFollowingMovement : MonoBehaviour
             if (distance > 1.3f)
             {
                 transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
-
             }
             if(transform.position.x > player.transform.position.x)
             {
