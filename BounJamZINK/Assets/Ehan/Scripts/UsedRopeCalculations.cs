@@ -1,31 +1,53 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class UsedRopeCalculations : MonoBehaviour
 {
     [SerializeField] private LineRendererScript lineRendererScript;
     public List<Transform> pointsList;
-    private float totalDistance = 0f;
+    public int remainingRope = 1500;
+    
+    
     private void Start()
     {
         pointsList = lineRendererScript.points;
     }
 
+    public static bool increaseRope = false;
     private void Update()
     {
-        if (pointsList.Count == 1 || pointsList.Count == 0)
-            totalDistance = 0;
+        if (increaseRope)
+        {
+            remainingRope += 50;
+            increaseRope = false;
+        }
     }
 
+    
+    public static void IncreaseRope()
+    {
+        increaseRope = true;
+    }
+
+    
+    
     public void CalculateNewDistance()
     {
-        for (int i = 0; i < pointsList.Count-1; i++)
+        if (pointsList.Count >= 2)
         {
-            float squaredDistance = (pointsList[i].position - pointsList[i+1].position).sqrMagnitude;
-            Debug.Log("Mesafe" + (int)squaredDistance);
-            totalDistance += squaredDistance;
+            float squaredDistance = (pointsList[pointsList.Count-2].position - pointsList[pointsList.Count-1].position).sqrMagnitude;
+            if((remainingRope - (int) (squaredDistance)>0))
+            {
+                remainingRope = remainingRope - (int)squaredDistance;
+            }
+            else
+            {
+                remainingRope = 0;
+            }
         }
+        
     }
 }
