@@ -106622,7 +106622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 416975973}
-  material0: {fileID: 0}
+  material0: {fileID: 2100000, guid: 9b7298fdaea857940b2c5d9a7009f7db, type: 2}
   material1: {fileID: 2100000, guid: 82e4a01e4bc68ea4985d4b481d655307, type: 2}
   material2: {fileID: 2100000, guid: 4bef8ea04b428b549b3ca8042068dace, type: 2}
   switchInterval: 0.15
