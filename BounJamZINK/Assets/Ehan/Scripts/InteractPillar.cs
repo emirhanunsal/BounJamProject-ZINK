@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class InteractPillar : MonoBehaviour
     
     public Vector2 lastLookDirection;
     public RaycastHit2D hit;
+
+    private bool isEPressed;
+
     void Update()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
@@ -37,13 +41,25 @@ public class InteractPillar : MonoBehaviour
             //Debug.Log("PILLLARRRRRRR");
             Transform pillarTransform = hit.collider.gameObject.transform;
             if (Input.GetKeyDown(KeyCode.E))
-            {
-                lineRendererScript.AddPointToLine(pillarTransform);
-                bool nextStatementBool = lineRendererScript.CheckValidLoop();
-                if (!nextStatementBool)
+            {   
+                Debug.Log("e  KEY PRESSED");
+                isEPressed = true;
+                while (isEPressed)
                 {
-                    lineRendererScript.CheckInvalidCompleteLoop();
+                        lineRendererScript.AddPointToLine(pillarTransform);
+                        bool nextStatementBool = lineRendererScript.CheckValidLoop();
+                        if (!nextStatementBool)
+                        { 
+                            lineRendererScript.CheckInvalidCompleteLoop(); 
+                        } 
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            isEPressed = false;
+
+                        }
                 }
+                
+                
             }
         }
         else

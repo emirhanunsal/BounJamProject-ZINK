@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Emran/emran.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Emran/EnterScreen.unity
+    guid: fb544ac431c08794685c293443d73dc4
+  - enabled: 1
+    path: Assets/Emran/Tutorial.unity
+    guid: 3f8b3063d67120d4d92ae99514b879df
+  - enabled: 1
+    path: Assets/Ehan/ehan.unity
+    guid: 50c24a515519654468760115af24c599
   m_configObjects: {}

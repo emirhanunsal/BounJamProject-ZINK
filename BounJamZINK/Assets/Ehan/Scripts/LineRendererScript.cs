@@ -17,17 +17,17 @@ public class LineRendererScript : MonoBehaviour
     [SerializeField] private UI ui;
     [SerializeField] private GameObject ropePerk;
     [SerializeField] private GameObject healthPerk;
-     
+
     void Start()
     {
         lr = GetComponent<LineRenderer>();
         edgeCollider = this.GetComponent<EdgeCollider2D>();
 
-        
+
 
 
     }
-    
+
     public void AddPointToLine(Transform transform)
     {
         if (usedRopeCalculations.remainingRope > 0)
@@ -38,25 +38,25 @@ public class LineRendererScript : MonoBehaviour
         {
             Debug.Log("No more rope left");
         }
-        
+
     }
 
     public void ClearPointsList()
     {
         points.Clear();
     }
-    
-    
-    
+
+
+
     public Material material0; // Varsayılan materyal
     public Material material1; // İlk materyal
     public Material material2; // İkinci materyal
     public float switchInterval = 0.2f; // Materyalin ne kadar sıklıkla değiştirileceği (saniye)
-    
+
     private float timer = 0.0f; // Zamanlayıcı
     private bool useMaterial1 = true; // Hangi materyalin kullanılacağını takip eden bool değişken
 
-    
+
     void Update()
     {
         lr.positionCount = points.Count;
@@ -64,8 +64,8 @@ public class LineRendererScript : MonoBehaviour
         {
             lr.SetPosition(i, points[i].position);
         }
+
         SetEdgeCollider(lr);
-        Debug.Log(damageEnabled);
         SetOnFire();
         if (changeColors)
         {
@@ -84,24 +84,24 @@ public class LineRendererScript : MonoBehaviour
             lr.material = material0;
         }
     }
-    
+
     void SetEdgeCollider(LineRenderer lineRenderer)
     {
         List<Vector2> edges = new List<Vector2>();
- 
-        for(int point = 0; point<lineRenderer.positionCount; point++)
+
+        for (int point = 0; point < lineRenderer.positionCount; point++)
         {
             Vector3 lineRendererPoint = lineRenderer.GetPosition(point);
             edges.Add(new Vector2(lineRendererPoint.x, lineRendererPoint.y));
         }
- 
+
         edgeCollider.SetPoints(edges);
     }
-    
+
     public void AddElementIfNotLastOrSecondLast(Transform newElement)
     {
         int count = points.Count;
-        
+
         // Listenin son veya sondan bir önceki elemanını kontrol etme
         if (count > 0)
         {
@@ -128,7 +128,7 @@ public class LineRendererScript : MonoBehaviour
         // Yeni elemanı listeye ekle
         points.Add(newElement);
         usedRopeCalculations.CalculateNewDistance();
-        
+
         //Debug.Log("Eleman listeye eklendi: " + newElement);
     }
 
@@ -149,7 +149,7 @@ public class LineRendererScript : MonoBehaviour
                 }
             }
         }
-       // Debug.Log("Listede tekrar eden bir transform bulunamadı.");
+        // Debug.Log("Listede tekrar eden bir transform bulunamadı.");
     }
 
     public bool CheckValidLoop()
@@ -171,11 +171,12 @@ public class LineRendererScript : MonoBehaviour
         {
             return false;
         }
-        
+
     }
 
     public bool damageEnabled = false;
     public bool isOnFire = false;
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log("Çarpışma başladı: " + collision.gameObject.name);
@@ -190,17 +191,19 @@ public class LineRendererScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && isOnFire)
         {
-           // Debug.Log("IPTE CARPISMA VAR");
-           Transform transform = collision.gameObject.transform;
-           int chance = UnityEngine.Random.Range(1,5);
-           if (chance == 1)
-           {
-               Instantiate(healthPerk, transform.position, Quaternion.identity);
-           }
-           if (chance == 2)
-           {
-               Instantiate(ropePerk, transform.position, Quaternion.identity);
-           }
+            // Debug.Log("IPTE CARPISMA VAR");
+            Transform transform = collision.gameObject.transform;
+            int chance = UnityEngine.Random.Range(1, 5);
+            if (chance == 1)
+            {
+                Instantiate(healthPerk, transform.position, Quaternion.identity);
+            }
+
+            if (chance == 2)
+            {
+                Instantiate(ropePerk, transform.position, Quaternion.identity);
+            }
+
             Destroy(collision.gameObject);
             skor = skor + UnityEngine.Random.Range(0, 11);
         }
@@ -208,11 +211,13 @@ public class LineRendererScript : MonoBehaviour
 
 
     private bool changeColors = false;
+
     private void SetOnFire()
     {
         if (damageEnabled)
         {
-            if (_interactPillar.hit.collider != null && points.Contains(_interactPillar.hit.collider.gameObject.transform))
+            if (_interactPillar.hit.collider != null &&
+                points.Contains(_interactPillar.hit.collider.gameObject.transform))
             {
                 //Debug.Log("Damage enabled ve pillara dokunuoluyor");
                 if (Input.GetKeyDown(KeyCode.F))
@@ -220,26 +225,27 @@ public class LineRendererScript : MonoBehaviour
                 {
                     changeColors = true;
 
-                {   
-                    
->
-                    Debug.Log("Damage enabled ve pillara dokunuoluyor ve f basıldı");
-                    isOnFire = true;
-                    Invoke("ClearPointList", 10f);
+                    {
+
+
+                        Debug.Log("Damage enabled ve pillara dokunuoluyor ve f basıldı");
+                        isOnFire = true;
+                        Invoke("ClearPointList", 10f);
+                    }
                 }
             }
-        }
-        
-    }
 
-    
-    private void ClearPointList()
-    {
-        points.Clear();
-        damageEnabled = false;
-        isOnFire = false;
-        changeColors = false;
-        _interactPillar.RemoveColliders();
+        }
+
+
+        void ClearPointList()
+        {
+            points.Clear();
+            damageEnabled = false;
+            isOnFire = false;
+            changeColors = false;
+            _interactPillar.RemoveColliders();
+        }
     }
 }
     
