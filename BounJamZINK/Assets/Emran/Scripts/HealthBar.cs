@@ -4,12 +4,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = System.Random;
+using UnityEngine.SceneManagement;
 
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
     public static float health = 100f;
     private static AudioSource audioSource;
+    public int sceneIndex;
 
     void Start()
     {
@@ -20,7 +22,7 @@ public class HealthBar : MonoBehaviour
         slider.maxValue = _health;
         slider.value = _health;
     }
-
+    
     public static void DecreaseHealth()
     {
         health = health - UnityEngine.Random.Range(5, 8);
@@ -47,5 +49,10 @@ public class HealthBar : MonoBehaviour
     void Update()
     {
         slider.value = health;
+            Debug.Log(health);
+        if (health <= 0)
+        {   
+            SceneManager.LoadScene(3);
+        }
     }
 }

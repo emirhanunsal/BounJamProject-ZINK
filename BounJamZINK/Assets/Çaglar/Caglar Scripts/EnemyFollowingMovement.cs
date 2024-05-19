@@ -24,8 +24,10 @@ public class EnemyFollowingMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        distance = Vector2.Distance(transform.position, player.transform.position);
         animator.SetFloat("Distance", distance);
         // Eğer Animator "Attack" state'indeyse
+        
         if (distance <= 1.3f)
         {
             //Debug.Log("Attack state'indeyiz!");
