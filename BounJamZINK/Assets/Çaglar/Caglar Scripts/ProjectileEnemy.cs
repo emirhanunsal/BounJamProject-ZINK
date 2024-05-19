@@ -23,7 +23,7 @@ public class ProjectileEnemy : MonoBehaviour
         spriteRenderer2 = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
        // currentHP = health.currentHealth;
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = CharacterController.Instance.gameObject;
         r2d = GetComponent<Rigidbody2D>();
         
     }

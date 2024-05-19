@@ -15,6 +15,7 @@ public class HealthBar : MonoBehaviour
 
     void Start()
     {
+        health = 100f;
         audioSource = GetComponent<AudioSource>();
     }
     public void SetMaxHealth(float _health)

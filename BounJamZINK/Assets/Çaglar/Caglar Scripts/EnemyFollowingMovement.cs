@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +12,13 @@ public class EnemyFollowingMovement : MonoBehaviour
     private Rigidbody2D r2d;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+
     
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();    
-        player = GameObject.FindGameObjectWithTag("Player");
+        animator = GetComponent<Animator>();
+        player = CharacterController.Instance.gameObject;
         r2d = GetComponent<Rigidbody2D>();
     }
     float maxTimer = 0.41f;

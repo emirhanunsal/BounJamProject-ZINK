@@ -2,6 +2,24 @@ using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
+    public static CharacterController Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
+    
+    
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Animator animator;

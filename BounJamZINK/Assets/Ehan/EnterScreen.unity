@@ -782,8 +782,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: FIRENODE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 743d28e6538bcda41af1e78c976a9f09, type: 2}
-  m_sharedMaterial: {fileID: 1475792268139278636, guid: 743d28e6538bcda41af1e78c976a9f09, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 966f89bedc670914b97fb9615fce2409, type: 2}
+  m_sharedMaterial: {fileID: 767733512197637332, guid: 966f89bedc670914b97fb9615fce2409, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -807,8 +807,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 116.7
-  m_fontSizeBase: 116.7
+  m_fontSize: 63.94
+  m_fontSizeBase: 63.94
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
