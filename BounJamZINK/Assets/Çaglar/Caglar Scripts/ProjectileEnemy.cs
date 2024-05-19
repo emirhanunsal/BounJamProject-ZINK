@@ -25,7 +25,7 @@ public class ProjectileEnemy : MonoBehaviour
        // currentHP = health.currentHealth;
         player = GameObject.FindGameObjectWithTag("Player");
         r2d = GetComponent<Rigidbody2D>();
-        StartCoroutine(Shooting());
+        
     }
     private IEnumerator Shooting()
     {
@@ -33,28 +33,42 @@ public class ProjectileEnemy : MonoBehaviour
         {
             distance = Vector2.Distance(transform.position, player.transform.position);
 
-            if (distance <= 3.0f)
+            if (distance <= 3.2f)
                 Instantiate(bullet, firePoint.position, quaternion.identity);
 
             yield return new WaitForSeconds(shootRate);
 
         }
 
+        
     }
+    float timer = 0f;
+    float maxTimer = 2f;
     // Update is called once per frame
     void Update()
     {
         distance = Vector2.Distance(transform.position, player.transform.position);
        // animator.SetFloat("Health", currentHP);
         animator.SetFloat("Distance", distance);
-
+        
+        if (distance <= 4.5f)
+        {
+            
+            timer += Time.deltaTime;
+            if (timer > maxTimer)
+            {
+                Debug.Log("INSTANTİATE OLMALI");
+                Instantiate(bullet, firePoint.position, quaternion.identity);
+                timer = 0f;
+            }
+        }
     }
     private void FixedUpdate()
     {
         distance = Vector2.Distance(transform.position, player.transform.position);
         Vector2 direction = player.transform.position - transform.position;
 
-        if (distance > 3.0f)
+        if (distance > 4.0f)
         {
             transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
         }

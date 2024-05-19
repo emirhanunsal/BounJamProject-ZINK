@@ -9,9 +9,10 @@ public class RandomEnemySpawner : MonoBehaviour
 
     [SerializeField] private GameObject[] enemyPrefabs;
     private bool canSpawn = true;
-    [SerializeField] private float spawnRate = 1.0f;
+    private float spawnRate = 1f;
     [SerializeField] public float distanceOfSpawner = 20.0f;
      private GameObject player;
+     public static int enemyCount  = 0;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -42,15 +43,32 @@ public class RandomEnemySpawner : MonoBehaviour
             yield return wait;
             int rand = UnityEngine.Random.Range(0, enemyPrefabs.Length);
             GameObject enemyToSpawn = enemyPrefabs[rand];
-
-            Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
+            if (enemyCount < 200)
+            {
+                Instantiate(enemyToSpawn, transform.position, Quaternion.identity);
+                enemyCount++;
+            }
         }
     }
+
+    private float timer = 0f;
+    float maxTimer = 25f;
 
 
     // Update is called once per frame
     void Update()
     {
-        
+        timer += Time.deltaTime;
+        if (timer > maxTimer)
+        {
+            if ((spawnRate = spawnRate - 0.05f) >= 0.05f)
+            {
+                spawnRate = spawnRate - 0.05f;
+            }
+            else
+            {
+                spawnRate = 0.05f;
+            }
+        }
     }
 }

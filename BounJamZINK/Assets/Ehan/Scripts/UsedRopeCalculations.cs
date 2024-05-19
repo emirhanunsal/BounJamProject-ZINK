@@ -8,7 +8,7 @@ public class UsedRopeCalculations : MonoBehaviour
 {
     [SerializeField] private LineRendererScript lineRendererScript;
     public List<Transform> pointsList;
-    public int remainingRope = 1500;
+    public int remainingRope = 1000;
     
     
     private void Start()

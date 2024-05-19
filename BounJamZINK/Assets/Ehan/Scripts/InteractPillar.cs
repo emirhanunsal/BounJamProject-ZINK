@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class InteractPillar : MonoBehaviour
@@ -7,6 +8,10 @@ public class InteractPillar : MonoBehaviour
     [SerializeField] private LayerMask pillarLayerMask;
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private LineRendererScript lineRendererScript;
+    [SerializeField] private GameObject eButton;
+    [SerializeField] private GameObject fButton;
+    [SerializeField] private AudioSource tyingSound;
+    
     
     public Vector2 lastLookDirection;
     public RaycastHit2D hit;
@@ -34,11 +39,22 @@ public class InteractPillar : MonoBehaviour
         
         if (hit.collider != null)
         {
-            //Debug.Log("PILLLARRRRRRR");
+            
+            Debug.Log(hit.collider.gameObject.transform);
             Transform pillarTransform = hit.collider.gameObject.transform;
-            if (Input.GetKeyDown(KeyCode.E))
+            if (lineRendererScript.points.Contains(hit.collider.gameObject.transform))
+            {
+                Debug.Log("Bu pillar pointste var");
+                eButton.SetActive(false);
+            }
+            else
+            {
+                eButton.SetActive(true);
+            }
+            if (Input.GetKeyDown(KeyCode.E) && !lineRendererScript.changeColors)
             {
                 lineRendererScript.AddPointToLine(pillarTransform);
+                tyingSound.Play();
                 bool nextStatementBool = lineRendererScript.CheckValidLoop();
                 if (!nextStatementBool)
                 {
@@ -46,10 +62,37 @@ public class InteractPillar : MonoBehaviour
                 }
             }
         }
-        else
+        else if(hit.collider == null)
         {
-            //Debug.Log("Raycast hit nothing.");
+            eButton.SetActive(false);
         }
+
+        if (hit.collider != null)
+        {
+            if (lineRendererScript.damageEnabled)
+            {
+                if(lineRendererScript.points.Contains(hit.collider.gameObject.transform))
+                {
+                    fButton.SetActive(true);
+                }
+            }
+            else
+            {
+                fButton.SetActive(false);
+            }
+        }
+
+        if (hit.collider == null)
+        {
+            fButton.SetActive(false); 
+            eButton.SetActive(false);
+        }
+
+        if (lineRendererScript.changeColors)
+        {
+            fButton.SetActive(false);
+        }
+        
     }
     
     [SerializeField] private Transform remPillar;

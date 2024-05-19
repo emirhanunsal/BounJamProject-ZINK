@@ -9,8 +9,12 @@ public class HealthBar : MonoBehaviour
 {
     public Slider slider;
     public static float health = 100f;
+    private static AudioSource audioSource;
 
-    
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     public void SetMaxHealth(float _health)
     {
         slider.maxValue = _health;
@@ -19,16 +23,15 @@ public class HealthBar : MonoBehaviour
 
     public static void DecreaseHealth()
     {
-        
-        
         health = health - UnityEngine.Random.Range(5, 8);
+        audioSource.Play();
     }
     
     public static void IncreaseHealth()
     {
-        if ((health + UnityEngine.Random.Range(10, 15) <= 100))
+        if ((health + 2 <= 100))
         {
-            health = health + UnityEngine.Random.Range(10, 15);
+            health = health +2;
         }
         else
         {
@@ -39,10 +42,6 @@ public class HealthBar : MonoBehaviour
     
     
     
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

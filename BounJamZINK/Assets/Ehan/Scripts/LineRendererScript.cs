@@ -16,6 +16,7 @@ public class LineRendererScript : MonoBehaviour
     [SerializeField] private UI ui;
     [SerializeField] private GameObject ropePerk;
     [SerializeField] private GameObject healthPerk;
+    [SerializeField] private AudioSource enemyDeath;
      
 
     void Start()
@@ -48,7 +49,7 @@ public class LineRendererScript : MonoBehaviour
     public Material material0; // Varsayılan materyal
     public Material material1; // İlk materyal
     public Material material2; // İkinci materyal
-    public float switchInterval = 0.2f; // Materyalin ne kadar sıklıkla değiştirileceği (saniye)
+    public float switchInterval = 0.05f; // Materyalin ne kadar sıklıkla değiştirileceği (saniye)
     
     private float timer = 0.0f; // Zamanlayıcı
     private bool useMaterial1 = true; // Hangi materyalin kullanılacağını takip eden bool değişken
@@ -62,7 +63,7 @@ public class LineRendererScript : MonoBehaviour
             lr.SetPosition(i, points[i].position);
         }
         SetEdgeCollider(lr);
-        Debug.Log(damageEnabled);
+        //Debug.Log(damageEnabled);
         SetOnFire();
         if (changeColors)
         {
@@ -79,6 +80,11 @@ public class LineRendererScript : MonoBehaviour
         else
         {
             lr.material = material0;
+        }
+
+        if (changeColors)
+        {
+            
         }
     }
     
@@ -178,7 +184,19 @@ public class LineRendererScript : MonoBehaviour
         //Debug.Log("Çarpışma başladı: " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Enemy") && isOnFire)
         {
+            Transform transform = collision.gameObject.transform;
+            int chance = UnityEngine.Random.Range(1,5);
+            if (chance == 1)
+            {
+                Instantiate(healthPerk, transform.position, Quaternion.identity);
+            }
+            if (chance == 2)
+            {
+                Instantiate(ropePerk, transform.position, Quaternion.identity);
+            }
             Destroy(collision.gameObject);
+            RandomEnemySpawner.enemyCount--;
+            enemyDeath.Play();
             skor = skor + UnityEngine.Random.Range(0, 11);
         }
     }
@@ -189,7 +207,7 @@ public class LineRendererScript : MonoBehaviour
         {
            // Debug.Log("IPTE CARPISMA VAR");
            Transform transform = collision.gameObject.transform;
-           int chance = UnityEngine.Random.Range(1,5);
+           int chance = UnityEngine.Random.Range(1,8);
            if (chance == 1)
            {
                Instantiate(healthPerk, transform.position, Quaternion.identity);
@@ -199,12 +217,14 @@ public class LineRendererScript : MonoBehaviour
                Instantiate(ropePerk, transform.position, Quaternion.identity);
            }
             Destroy(collision.gameObject);
+            enemyDeath.Play();
+            RandomEnemySpawner.enemyCount--;
             skor = skor + UnityEngine.Random.Range(0, 11);
         }
     }
 
 
-    private bool changeColors = false;
+    public bool changeColors = false;
     private void SetOnFire()
     {
         if (damageEnabled)
